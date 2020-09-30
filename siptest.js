@@ -808,14 +808,14 @@ function doCall(ev) {
 	$('#call' + suffix).attr('disabled', true).unbind('click');
 	$('#dovideo' + suffix).attr('disabled', true);
 	var username = $('#peer' + suffix).val();
-	// username = "sip:01@134.122.92.167";
-	// if(username === "") {
-	// 	bootbox.alert('Please insert a valid SIP address (e.g., sip:pluto@example.com)');
-	// 	$('#peer' + suffix).removeAttr('disabled');
-	// 	$('#dovideo' + suffix).removeAttr('disabled');
-	// 	$('#call' + suffix).removeAttr('disabled').click(function() { doCall(helperId); });
-	// 	return;
-	// }
+	username = "sip:01@134.122.92.167";
+	if(username === "") {
+		bootbox.alert('Please insert a valid SIP address (e.g., sip:pluto@example.com)');
+		$('#peer' + suffix).removeAttr('disabled');
+		$('#dovideo' + suffix).removeAttr('disabled');
+		$('#call' + suffix).removeAttr('disabled').click(function() { doCall(helperId); });
+		return;
+	}
 	if(username.indexOf("sip:") != 0 || username.indexOf("@") < 0) {
 		bootbox.alert('Please insert a valid SIP address (e.g., sip:pluto@example.com)');
 		$('#peer' + suffix).removeAttr('disabled').val("");
