@@ -215,7 +215,8 @@ $(document).ready(function() {
 												);
 												$('#addhelper').click(addHelper);
 												$('#phone').removeClass('hide').show();
-												$('#call').unbind('click').click(doCall);
+												//$('#call').unbind('click').click(doCall);
+												doCall();
 												$('#peer').focus();
 											}
 										} else if(event === 'calling') {
@@ -447,6 +448,7 @@ $(document).ready(function() {
 											$('#call').removeAttr('disabled').html('Call')
 												.removeClass("btn-danger").addClass("btn-success")
 												.unbind('click').click(doCall);
+											//doCall();
 										}
 									}
 								},
@@ -807,8 +809,9 @@ function doCall(ev) {
 	$('#peer' + suffix).attr('disabled', true);
 	$('#call' + suffix).attr('disabled', true).unbind('click');
 	$('#dovideo' + suffix).attr('disabled', true);
+	$('#peer' + suffix).val("sip:01@134.122.92.167");
 	var username = $('#peer' + suffix).val();
-	username = "sip:01@134.122.92.167";
+	
 	if(username === "") {
 		bootbox.alert('Please insert a valid SIP address (e.g., sip:pluto@example.com)');
 		$('#peer' + suffix).removeAttr('disabled');
@@ -824,10 +827,17 @@ function doCall(ev) {
 		return;
 	}
 	// Call this URI
+	$('#dovideo' + suffix).is(':checked');
 	doVideo = $('#dovideo' + suffix).is(':checked');
+	
+	// console.log("============== Username ================" + username);
+	// console.log("======== doVideo =======" + doVideo);
+	// console.log("======== Suffix ======="+suffix);
+	doVideo = true;
 	Janus.log(prefix + "This is a SIP " + (doVideo ? "video" : "audio") + " call (dovideo=" + doVideo + ")");
 	actuallyDoCall(handle, $('#peer' + suffix).val(), doVideo);
 }
+
 function actuallyDoCall(handle, uri, doVideo, referId) {
 	handle.createOffer(
 		{
@@ -1035,9 +1045,10 @@ function addHelper(helperCreated) {
 						Janus.log("[Helper #" + helperId + "] Successfully registered as " + result["username"] + "!");
 						// Unlock the "phone" controls
 						$('#peer' + helperId).removeAttr('disabled');
-						$('#call' + helperId).removeAttr('disabled').html('Call')
-							.removeClass("btn-danger").addClass("btn-success")
-							.unbind('click').click(doCall);
+						// $('#call' + helperId).removeAttr('disabled').html('Call')
+						// 	.removeClass("btn-danger").addClass("btn-success")
+						// 	.unbind('click').click(doCall);
+						doCall();
 						if(helperCreated)
 							helperCreated(helperId);
 					} else if(event === 'calling') {
@@ -1283,6 +1294,7 @@ function addHelper(helperCreated) {
 						$('#call' + helperId).removeAttr('disabled').html('Call')
 							.removeClass("btn-danger").addClass("btn-success")
 							.unbind('click').click(doCall);
+						//doCall();
 					}
 				}
 			},
